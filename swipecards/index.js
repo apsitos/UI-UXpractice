@@ -86,14 +86,56 @@ class Cards {
     const opacity = 1 - Math.pow(normalizedDragDistance, 3);
 
     this.target.style.transform = `translateX(${this.screenX}px)`;
-    this.target.style.transform = opacity;
+    this.target.style.opacity = opacity;
+
+    if(this.draggingCard)
+      return;
+
+    const isNearlyAtStart = (Math.abs(this.screenX) < 0.1);
     const isNearlyInvisible = (opacity < 0.01);
 
     if(!this.draggingCard)  {
       if(isNearlyInvisible) {
+        if(!this.target || !this.target.parentNode)
+          return;
+
+        let isAfterCurrentTarget = false;
+
+        const onTransitionEnd = e => {
+          this.target = null;
+          e.target.style.transition = 'none';
+          e.target.addEventListener('transitionend', onTransitionEnd);
+        }
+
+        for (let i = 0; i < this.cards.length; i++) {
+          const card = this.cards[i];
+
+          if(card === this.target) {
+            isAfterCurrentTarget = true;
+            continue;
+          }
+
+          if(!isAfterCurrentTarget)
+            continue;
+
+          card.style.transform = `translateY(${this.targetBCR.height + 20}px)`;
+          requestAnimationFrame( _ => {
+            card.style.transition = 'transform 0.15s cubic-bezier(0,0,0.31,1)';
+            card.style.transform = 'none';
+          });
+
+          card.addEventListener('transitionend', onTransitionEnd);
+        }
+
+        if(this.target && this.target.parentNode)
         this.target.parentNode.removeChild(this.target);
-        this.target = null;
       }
+    }
+
+    if(isNearlyAtStart) {
+      this.target.style.willChange = 'initial';
+      this.target.style.transform = 'none';
+      this.target = null;
     }
 
   }
