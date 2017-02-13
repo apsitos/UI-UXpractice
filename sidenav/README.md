@@ -1,1 +1,1 @@
-HTML and CSS were copied directly from their GH [repo](https://github.com/GoogleChrome/ui-element-samples/tree/gh-pages/side-nav).
+HTML and CSS were copied directly from their GH [repo](https://github.com/GoogleChrome/ui-element-samples/tree/gh-pages/side-nav). The original intent was to copy the basic setup that the video started with, but it's a little difficult to figure that part out.

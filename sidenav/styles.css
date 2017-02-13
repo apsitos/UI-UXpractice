@@ -93,7 +93,7 @@ html, body {
   transition: transform 0.13s cubic-bezier(0,0,0.3,1);
 }
 
-.side-nav--visible.side-nav--animatable .side-nav__container {
+.side-nav--visible .side-nav--animatable .side-nav__container {
   transition: transform 0.33s cubic-bezier(0,0,0.3,1);
 }
 
